@@ -29,7 +29,6 @@ public class Postagem {
 	private String titulo;
 
 	@NotNull
-
 	@Size(min = 5, max = 500)
 	private String texto;
 
