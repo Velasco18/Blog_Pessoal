@@ -1,6 +1,7 @@
 package com.Generation.Blog_Pessoal.Seguranca;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,59 +10,53 @@ import com.Generation.Blog_Pessoal.Model.Usuario;
 
 
 
-public class UserDetailsImplementacao implements UserDetails {
-	
+public class UserDetailsImplementacao implements UserDetails{
 	private static final long serialVersionUID = 1L;
-	
+
 	private String userName;
 	private String password;
-	
-	public UserDetailsImplementacao (Usuario user) {
-		this.userName = user.getNome();
-		this.password = user.getSenha();
-		
+	private List<GrantedAuthority> authorities;
+
+	public UserDetailsImplementacao(Usuario user) {
+		this.userName = user.getUsuario();
+		this.password = user.getSenha();		
 	}
+
+	public UserDetailsImplementacao() {}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		return authorities;
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
-		return password ;
+		return password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
+
 		return userName;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
-
 }

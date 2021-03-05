@@ -12,21 +12,19 @@ import com.Generation.Blog_Pessoal.Model.Usuario;
 import com.Generation.Blog_Pessoal.Repository.UsuarioRepository;
 
 @Service
-public abstract class UserDetailsServiceImplementacao implements UserDetailsService {
-	
+public class UserDetailsServiceImplementacao implements UserDetailsService {
+
 	@Autowired
 	private UsuarioRepository userRepository;
-	
-	//@Override -> problema na anotação no video tem porem pede para reover se não dá erro
-	public  UserDetails loadUserByUserName (String userName) throws UsernameNotFoundException{
-		
-		Optional<Usuario> user = userRepository.findByUsuario(userName);
-		user.orElseThrow(() -> new UsernameNotFoundException(userName + "not found"));
-		
-		return  user.map(UserDetailsImplementacao:: new).get();
-	}
 
-	
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+
+		Optional<Usuario> user = userRepository.findByUsuario(userName);
+		user.orElseThrow(() -> new UsernameNotFoundException(userName + " not found."));
+
+		return user.map(UserDetailsImplementacao::new).get();
 	}
+}
 
 

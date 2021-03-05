@@ -13,29 +13,41 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Generation.Blog_Pessoal.Model.UserLogin;
 import com.Generation.Blog_Pessoal.Model.Usuario;
+import com.Generation.Blog_Pessoal.Repository.UsuarioRepository;
 import com.Generation.Blog_Pessoal.Service.UsuarioService;
+
+import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin("*")
+@Api(value="API REST Usuario")
 public class UsuarioController {
 	
 	@Autowired
-	private  UsuarioService usuarioService;
+	private UsuarioRepository repository;
 	
-	@PostMapping("/Logar")
-	public ResponseEntity<UserLogin> Autentication(@RequestBody Optional<UserLogin> user){
+	@Autowired
+	private UsuarioService usuarioService;
+
+	@PostMapping("/logar")
+	public ResponseEntity<UserLogin> Autentication(@RequestBody Optional<UserLogin> user) {
 		return usuarioService.Logar(user).map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
+
+
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> post (@RequestBody Usuario usuario){
+	public ResponseEntity<Usuario> Post(@RequestBody Usuario usuario) {
 		Optional<Usuario> user = usuarioService.CadastrarUsuario(usuario);
 		try {
-			return  ResponseEntity.ok(user.get());
-		}catch(Exception e) {
-			return  ResponseEntity.badRequest().build();
+				return ResponseEntity.ok(user.get());
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
 		}
-		//return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.CadastrarUsuario(usuario));
+		
 	}
+
+
+
 }
